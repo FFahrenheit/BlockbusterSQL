@@ -124,7 +124,9 @@ public class Index extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println("Click");
+        this.dispose();
+        MovieForm movieForm = new MovieForm();
+        movieForm.setVisible(true);
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void passwordFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFormActionPerformed
