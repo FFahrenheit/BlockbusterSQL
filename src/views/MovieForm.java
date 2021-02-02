@@ -5,21 +5,29 @@
  */
 package views;
 
+import controllers.BlockBuster;
 import controllers.Database;
+import controllers.TableGenerator;
+import javax.swing.JOptionPane;
+import models.Movie;
 
 /**
  *
  * @author ivan_
  */
 public class MovieForm extends javax.swing.JFrame {
-
-    Database db;
+    
+    BlockBuster db;
+    TableGenerator generator;
     /**
      * Creates new form MovieForm
      */
     public MovieForm() {
         initComponents();
-        db = new Database();
+        db = new BlockBuster();
+        generator = new TableGenerator();
+        this.table.setModel(generator.getMovies());
+        this.setTitle("Agregar peliculas");
     }
 
     /**
@@ -42,7 +50,7 @@ public class MovieForm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        nameF = new javax.swing.JTextField();
+        titleF = new javax.swing.JTextField();
         priceF = new javax.swing.JTextField();
         yearF = new javax.swing.JTextField();
         stockF = new javax.swing.JTextField();
@@ -55,7 +63,7 @@ public class MovieForm extends javax.swing.JFrame {
         exitB = new javax.swing.JButton();
         scrollPane1 = new java.awt.ScrollPane();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
 
         jScrollPane2.setViewportView(jTree1);
 
@@ -88,9 +96,9 @@ public class MovieForm extends javax.swing.JFrame {
 
         jLabel8.setText("GENERO");
 
-        nameF.addActionListener(new java.awt.event.ActionListener() {
+        titleF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameFActionPerformed(evt);
+                titleFActionPerformed(evt);
             }
         });
 
@@ -126,7 +134,7 @@ public class MovieForm extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -137,7 +145,7 @@ public class MovieForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(jTable2);
+        jScrollPane4.setViewportView(table);
 
         scrollPane1.add(jScrollPane4);
 
@@ -159,7 +167,7 @@ public class MovieForm extends javax.swing.JFrame {
                                 .addComponent(jLabel2))
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(nameF)
+                                .addComponent(titleF)
                                 .addComponent(yearF, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                                 .addComponent(directorF))))
                     .addComponent(addB))
@@ -184,10 +192,10 @@ public class MovieForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(289, 289, 289))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(50, 50, 50))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +207,7 @@ public class MovieForm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(nameF, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(titleF, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -231,17 +239,17 @@ public class MovieForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addB)
                     .addComponent(exitB))
-                .addGap(54, 54, 54)
-                .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nameFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameFActionPerformed
+    private void titleFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nameFActionPerformed
+    }//GEN-LAST:event_titleFActionPerformed
 
     private void directorFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directorFActionPerformed
         // TODO add your handling code here:
@@ -260,6 +268,32 @@ public class MovieForm extends javax.swing.JFrame {
 
     private void addBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBActionPerformed
         // TODO add your handling code here:
+        Movie movie = new Movie(
+        "",
+        titleF.getText().toString(),
+        directorF.getText().toString(),
+        sinopsisF.getText().toString(),
+        genreF.getText().toString(),
+        priceF.getText().toString(),
+        stockF.getText().toString(),
+        yearF.getText().toString());
+        
+        if(db.addMovie(movie))
+        {
+            JOptionPane.showMessageDialog(this, "Pelicula agregada");
+            titleF.setText("");
+            directorF.setText("");
+            sinopsisF.setText("");
+            genreF.setText("");
+            priceF.setText("");
+            stockF.setText("");
+            yearF.setText("");
+            table.setModel(generator.getMovies());
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "No se pudo agregar, verifique los campos");
+        }
     }//GEN-LAST:event_addBActionPerformed
 
     /**
@@ -315,13 +349,13 @@ public class MovieForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTree jTree1;
-    private javax.swing.JTextField nameF;
     private javax.swing.JTextField priceF;
     private java.awt.ScrollPane scrollPane1;
     private javax.swing.JTextArea sinopsisF;
     private javax.swing.JTextField stockF;
+    private javax.swing.JTable table;
+    private javax.swing.JTextField titleF;
     private javax.swing.JTextField yearF;
     // End of variables declaration//GEN-END:variables
 }
