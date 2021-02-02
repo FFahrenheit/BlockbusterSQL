@@ -5,6 +5,8 @@
  */
 package blockbustersql;
 
+import views.Index;
+
 /**
  *
  * @author ivan_
@@ -14,8 +16,10 @@ public class BlockbusterSQL {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) 
+    {
+        Index index  = new Index();
+        index.setVisible(true);
     }
     
 }
