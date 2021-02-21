@@ -5,11 +5,16 @@
  */
 package views;
 
+import controllers.Session;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ivan_
  */
 public class Index extends javax.swing.JFrame {
+    
+    private Session session;
 
     /**
      * Creates new form Index
@@ -17,6 +22,7 @@ public class Index extends javax.swing.JFrame {
     public Index() {
         initComponents();
         this.setTitle("Bienvenido a BlockBusterSQL");
+        session = new Session();
     }
 
     /**
@@ -45,7 +51,7 @@ public class Index extends javax.swing.JFrame {
             }
         });
 
-        loginButton.setText("AGREGAR PELICULAS (temp)");
+        loginButton.setText("INICIAR SESIÓN");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonActionPerformed(evt);
@@ -69,6 +75,7 @@ public class Index extends javax.swing.JFrame {
         jLabel2.setText("CONTRASEÑA");
 
         jLabel3.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("BlockBusterSQL");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -80,7 +87,7 @@ public class Index extends javax.swing.JFrame {
                 .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(248, Short.MAX_VALUE)
+                .addContainerGap(206, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,7 +102,7 @@ public class Index extends javax.swing.JFrame {
                         .addGap(212, 212, 212))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(104, 104, 104))))
+                        .addGap(171, 171, 171))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(418, Short.MAX_VALUE)
@@ -130,13 +137,27 @@ public class Index extends javax.swing.JFrame {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
+        this.dispose();
+        Register register = new Register();
+        register.setVisible(true);
     }//GEN-LAST:event_registerButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        MovieForm movieForm = new MovieForm();
-        movieForm.setVisible(true);
+//        MovieForm movieForm = new MovieForm();
+//        movieForm.setVisible(true);
+        if(this.session.login(userForm.getText().toString(), passwordForm.getText().toString()))
+        {
+            if(this.session.getUser().getType().equals("user"))
+            {
+                this.dispose();
+                new UserIndex(this.session).setVisible(true);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Credenciales invalidas");
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void passwordFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFormActionPerformed
