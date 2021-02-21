@@ -105,6 +105,13 @@ public class BlockBuster {
         }
         return users;
     }
+        
+    public boolean rentMovie(String movie, String user)
+    {
+        String sql = "INSERT INTO rentadas (pelicula,usuario) VALUES "
+                + "("+movie+",'"+user+"')";
+        return executeQuery(sql);
+    }
     
     private boolean executeQuery(String query)
     {

@@ -6,6 +6,8 @@
 package controllers;
 
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import models.Movie;
 import models.User;
 
 /**
@@ -14,7 +16,9 @@ import models.User;
  */
 public class Session {
     
+    private TableGenerator generator;
     private ArrayList<User> users;
+    private ArrayList<Movie> movies;
     private BlockBuster db;
     private User user;
 
@@ -22,10 +26,23 @@ public class Session {
         return user;
     }
     
+    public BlockBuster db()
+    {
+        return this.db;
+    }
+    
+    public void update()
+    {
+        movies = db.getMovies();
+        users = db.getUsers();
+    }
+    
     public Session()
     {
         db = new BlockBuster();
         users = db.getUsers();
+        generator = new TableGenerator();
+        movies = db.getMovies();
     }
     
     public boolean login(String username, String password)
@@ -38,5 +55,15 @@ public class Session {
             }
         }
         return false;
+    }
+    
+    public ArrayList<Movie> getMovies()
+    {
+        return this.movies;
+    }
+    
+    public DefaultTableModel getMovieTable()
+    {
+        return generator.getMovies();
     }
 }

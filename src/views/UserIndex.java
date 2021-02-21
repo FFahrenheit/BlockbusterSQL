@@ -13,6 +13,7 @@ import controllers.Session;
  */
 public class UserIndex extends javax.swing.JFrame {
 
+    private Session session;
     /**
      * Creates new form UserIndex
      */
@@ -23,7 +24,8 @@ public class UserIndex extends javax.swing.JFrame {
     public UserIndex(Session session)
     {
         initComponents();
-        indexTitle.setText("Bienvenido, " + session.getUser().getUsername());
+        this.session = session;
+        indexTitle.setText("Bienvenido, " + session.getUser().getFirstName() + " " + session.getUser().getLastName());
     }
 
     /**
@@ -36,30 +38,110 @@ public class UserIndex extends javax.swing.JFrame {
     private void initComponents() {
 
         indexTitle = new javax.swing.JLabel();
+        status = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        seeMovies = new javax.swing.JButton();
+        boughtMovies = new javax.swing.JButton();
+        rentedMovies = new javax.swing.JButton();
+        logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        indexTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         indexTitle.setText("WELCOME");
+
+        status.setText("STATUS");
+
+        jLabel1.setText("VER PELICULAS");
+
+        jLabel2.setText("CONSULTAR MIS PELICULAS");
+
+        seeMovies.setText("VER CATALOGO");
+        seeMovies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seeMoviesActionPerformed(evt);
+            }
+        });
+
+        boughtMovies.setText("COMPRADAS");
+
+        rentedMovies.setText("RENTADAS");
+
+        logout.setText("Cerrar sesión");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(299, 299, 299)
-                .addComponent(indexTitle)
-                .addContainerGap(322, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(status))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(293, 293, 293)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(267, 267, 267)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(285, 285, 285)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(boughtMovies, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                            .addComponent(rentedMovies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(247, 247, 247)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(seeMovies, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(indexTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(259, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(indexTitle)
-                .addContainerGap(401, Short.MAX_VALUE))
+                .addComponent(status)
+                .addGap(22, 22, 22)
+                .addComponent(indexTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(seeMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(boughtMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(rentedMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void seeMoviesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seeMoviesActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        this.setTitle("Bienvenido a BlockBuster");
+        new Catalog(this.session).setVisible(true);
+    }//GEN-LAST:event_seeMoviesActionPerformed
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new Index().setVisible(true);
+    }//GEN-LAST:event_logoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -97,6 +179,13 @@ public class UserIndex extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton boughtMovies;
     private javax.swing.JLabel indexTitle;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton logout;
+    private javax.swing.JButton rentedMovies;
+    private javax.swing.JButton seeMovies;
+    private javax.swing.JLabel status;
     // End of variables declaration//GEN-END:variables
 }

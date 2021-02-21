@@ -159,13 +159,13 @@ public class Register extends javax.swing.JFrame {
         user.setType("user");
         user.setEmail(email.getText().toString());
         user.setUsername(username.getText().toString());
-        user.setPassword(username.getText().toString());
+        user.setPassword(password.getText().toString());
         user.setFirstName(firstName.getText().toString());
         user.setLastName(lastName.getText().toString());
         
         if(db.addUser(user))
         {
-            JOptionPane.showMessageDialog(this, "Usuario registrado con exito");
+            JOptionPane.showMessageDialog(this, "Usuario registrado con exito", "Registro completo", JOptionPane.INFORMATION_MESSAGE);
             email.setText("");
             username.setText("");
             password.setText("");
@@ -174,7 +174,7 @@ public class Register extends javax.swing.JFrame {
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "No se pudo agregar, verifique los campos");
+            JOptionPane.showMessageDialog(this, "No se pudo agregar, verifique los campos","Error al registrar",JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_REGISTRARActionPerformed
