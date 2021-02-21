@@ -65,6 +65,11 @@ public class Catalog extends javax.swing.JFrame {
         });
 
         buy.setText("Comprar");
+        buy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buyActionPerformed(evt);
+            }
+        });
 
         movieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -179,6 +184,43 @@ public class Catalog extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No hay stock suficiente","No se pudo rentar",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_rentActionPerformed
+
+    private void buyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyActionPerformed
+        // TODO add your handling code here:
+        if(session.isMember())
+        {
+            this.session.update();
+            Movie movie = this.session.getMovie(selected);
+
+            if(Integer.parseInt(movie.getStock()) > 0)
+            {
+                int input = JOptionPane.showConfirmDialog(null, "Desea comprar "+movie.getTitle()+"?");
+                if(input == 0)
+                {
+                    if(this.session.db().buyMovie(movie.getId(), session.getUser().getUsername()))
+                    {
+                        JOptionPane.showMessageDialog(this, "Se ha concretado la compra con exito","Compra lista",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, "No se pudo comprar","Error",JOptionPane.ERROR_MESSAGE);
+                    }
+                    this.movieTable.setModel(this.session.getMovieTable());
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "No hay stock suficiente","No se pudo comprar",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, 
+                    "Unase al club de socios para comprar",
+                    "No es posible la compra",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_buyActionPerformed
 
     /**
      * @param args the command line arguments

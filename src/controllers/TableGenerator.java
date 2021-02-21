@@ -8,6 +8,8 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import models.BoughtMovie;
 import models.Movie;
 import models.Rented;
 import models.RentedMovie;
@@ -125,6 +127,37 @@ public class TableGenerator {
             v.addElement(a.getYear());
             v.addElement(a.getDate());
             v.addElement(a.getReturned());
+            model.addRow(v);
+        });
+        
+        return model;
+    }
+
+    TableModel getBuyLog(String username) {
+        ArrayList<BoughtMovie> mv = db.getBuyLog(username);
+        
+        Vector cabeceras = new Vector();
+        cabeceras.addElement("ID compra");
+        cabeceras.addElement("Titulo");
+        cabeceras.addElement("Director");
+        cabeceras.addElement("Año");
+        cabeceras.addElement("Fecha de transaccion");
+        DefaultTableModel model = new DefaultTableModel(cabeceras, 0)
+        {
+             @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        mv.forEach(a->
+        {
+            Vector v = new Vector();
+            v.addElement(a.getId());
+            v.addElement(a.getTitle());
+            v.addElement(a.getDirector());
+            v.addElement(a.getYear());
+            v.addElement(a.getDate());
             model.addRow(v);
         });
         

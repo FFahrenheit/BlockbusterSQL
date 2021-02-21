@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import models.BoughtMovie;
 import models.Movie;
 import models.Rented;
 import models.RentedMovie;
@@ -133,6 +134,35 @@ public class BlockBuster {
         return movies;
     }
     
+    ArrayList<BoughtMovie> getBuyLog(String username) {
+        ArrayList<BoughtMovie> movies = new ArrayList<>();
+        String query = "SELECT peliculas.*,compradas.fecha AS fecha2, compradas.id AS id2 FROM peliculas,compradas WHERE "
+                + "compradas.usuario = '"+username+"' AND compradas.pelicula = peliculas.id";
+        System.out.println(query);
+        try
+        {
+            PreparedStatement select = connection.prepareStatement(query);
+            ResultSet result = select.executeQuery();
+            while(result.next())
+            {
+                BoughtMovie movie = new BoughtMovie();
+                
+                movie.setId(result.getString("id2"));
+                movie.setTitle(result.getString("titulo"));
+                movie.setDirector(result.getString("director"));
+                movie.setYear(result.getString("fecha"));
+                movie.setDate(result.getString("fecha2"));
+                
+                movies.add(movie);
+            }
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("No se pudieron cargar las peliculas" + ex.getMessage());
+        }
+        return movies;
+    }
+    
     public boolean addUser(User user){
         String query = "INSERT INTO usuarios(username,password,nombre,apellidos,correo) VALUES "
                 + " ('"+user.getUsername()+"','"+user.getPassword()+""
@@ -176,7 +206,12 @@ public class BlockBuster {
                 + "("+movie+",'"+user+"')";
         return executeQuery(sql);
     }
-    
+   
+    public boolean buyMovie(String movie, String user) {
+        String sql = "INSERT INTO compradas (pelicula,usuario) VALUES "
+                + "("+movie+",'"+user+"')";
+        return executeQuery(sql);
+    }
     public boolean returnMovie(Integer selected) {
         String sql = "UPDATE rentadas SET entregada = NOW() WHERE id = " + selected;
         return executeQuery(sql);
