@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import models.Movie;
+import models.Rented;
+import models.RentedMovie;
 
 /**
  *
@@ -60,6 +62,72 @@ public class TableGenerator {
         });
         
         this.movies = mv;
+        return model;
+    }
+    
+    public DefaultTableModel getRentedMovies(String user)
+    {
+        ArrayList<Rented> mv = db.getRentedMovies(user);
+        
+        Vector cabeceras = new Vector();
+        cabeceras.addElement("ID renta");
+        cabeceras.addElement("Titulo");
+        cabeceras.addElement("Director");
+        cabeceras.addElement("Año");
+        cabeceras.addElement("Fecha de prestamo");
+        DefaultTableModel model = new DefaultTableModel(cabeceras, 0)
+        {
+             @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        mv.forEach(a->
+        {
+            Vector v = new Vector();
+            v.addElement(a.getId());
+            v.addElement(a.getTitle());
+            v.addElement(a.getDirector());
+            v.addElement(a.getYear());
+            v.addElement(a.getDate());
+            model.addRow(v);
+        });
+        
+        return model;
+    }
+    
+    public DefaultTableModel getRentedLog(String user)
+    {
+        ArrayList<RentedMovie> mv = db.getRentedLog(user);
+        
+        Vector cabeceras = new Vector();
+        cabeceras.addElement("ID renta");
+        cabeceras.addElement("Titulo");
+        cabeceras.addElement("Director");
+        cabeceras.addElement("Año");
+        cabeceras.addElement("Fecha de prestamo");
+        cabeceras.addElement("Fecha de regreso");
+        DefaultTableModel model = new DefaultTableModel(cabeceras, 0)
+        {
+             @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        mv.forEach(a->
+        {
+            Vector v = new Vector();
+            v.addElement(a.getId());
+            v.addElement(a.getTitle());
+            v.addElement(a.getDirector());
+            v.addElement(a.getYear());
+            v.addElement(a.getDate());
+            v.addElement(a.getReturned());
+            model.addRow(v);
+        });
+        
         return model;
     }
 }

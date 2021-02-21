@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import models.Movie;
+import models.Rented;
+import models.RentedMovie;
 import models.User;
 
 /**
@@ -38,6 +40,68 @@ public class BlockBuster {
         return executeQuery(query);
     }
     
+    public ArrayList<Rented> getRentedMovies(String user)
+    {
+        ArrayList<Rented> movies = new ArrayList<>();
+        String query = "SELECT peliculas.*,rentadas.fecha AS fecha2, rentadas.id AS id2 FROM peliculas,rentadas WHERE "
+                + "rentadas.usuario = '"+user+"' AND rentadas.pelicula = peliculas.id AND "
+                + "rentadas.entregada IS NULL";
+        System.out.println(query);
+        try
+        {
+            PreparedStatement select = connection.prepareStatement(query);
+            ResultSet result = select.executeQuery();
+            while(result.next())
+            {
+                Rented movie = new Rented();
+                
+                movie.setId(result.getString("id2"));
+                movie.setTitle(result.getString("titulo"));
+                movie.setDirector(result.getString("director"));
+                movie.setYear(result.getString("fecha"));
+                movie.setDate(result.getString("fecha2"));
+                
+                movies.add(movie);
+            }
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("No se pudieron cargar las peliculas" + ex.getMessage());
+        }
+        return movies;
+    }
+    
+        public ArrayList<RentedMovie> getRentedLog(String user)
+    {
+        ArrayList<RentedMovie> movies = new ArrayList<>();
+        String query = "SELECT peliculas.*,rentadas.fecha AS fecha2, rentadas.id AS id2, "
+                + "rentadas.entregada AS fecha3 FROM peliculas,rentadas WHERE "
+                + "rentadas.usuario = '"+user+"' AND rentadas.pelicula = peliculas.id AND "
+                + "rentadas.entregada IS NOT NULL";
+        try
+        {
+            PreparedStatement select = connection.prepareStatement(query);
+            ResultSet result = select.executeQuery();
+            while(result.next())
+            {
+                RentedMovie movie = new RentedMovie();
+                
+                movie.setId(result.getString("id2"));
+                movie.setTitle(result.getString("titulo"));
+                movie.setDirector(result.getString("director"));
+                movie.setYear(result.getString("fecha"));
+                movie.setDate(result.getString("fecha2"));
+                movie.setReturned(result.getString("fecha3"));
+                movies.add(movie);
+            }
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("No se pudieron cargar las peliculas" + ex.getMessage());
+        }
+        return movies;
+    }
+        
     public ArrayList<Movie> getMovies()
     {
         ArrayList<Movie> movies = new ArrayList<>();
@@ -113,6 +177,11 @@ public class BlockBuster {
         return executeQuery(sql);
     }
     
+    public boolean returnMovie(Integer selected) {
+        String sql = "UPDATE rentadas SET entregada = NOW() WHERE id = " + selected;
+        return executeQuery(sql);
+    }
+    
     private boolean executeQuery(String query)
     {
         System.out.println(query);
@@ -128,5 +197,6 @@ public class BlockBuster {
             return false;
         }
     }
+
 
 }

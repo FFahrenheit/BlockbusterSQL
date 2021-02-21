@@ -21,6 +21,7 @@ public class Session {
     private ArrayList<Movie> movies;
     private BlockBuster db;
     private User user;
+    private String memberSince;
 
     public User getUser() {
         return user;
@@ -51,6 +52,7 @@ public class Session {
             if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password))
             {
                 this.user = users.get(i);
+                
                 return true;
             }
         }
@@ -65,5 +67,26 @@ public class Session {
     public DefaultTableModel getMovieTable()
     {
         return generator.getMovies();
+    }
+    
+    public DefaultTableModel getRentedTable()
+    {
+        return generator.getRentedMovies(this.user.getUsername());
+    }
+    
+    public DefaultTableModel getRentedLog()
+    {
+        return generator.getRentedLog(this.user.getUsername());
+    }
+    
+    public Movie getMovie(int id)
+    {
+        for (int i = 0; i < movies.size(); i++) {
+            if(Integer.parseInt(movies.get(i).getId()) == id)
+            {
+                return movies.get(i);
+            }
+        }
+        return null;
     }
 }
