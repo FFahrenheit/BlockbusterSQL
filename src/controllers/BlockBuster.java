@@ -182,6 +182,30 @@ public class BlockBuster {
         return executeQuery(sql);
     }
     
+    public String isMember(String user)
+    {
+        String query = "SELECT fecha FROM socios WHERE usuario = '"+user+"'";
+        try
+        {
+            PreparedStatement select = connection.prepareStatement(query);
+            ResultSet result = select.executeQuery();
+            while(result.next())
+            {
+                return result.getString("fecha");
+            }
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("No se pudieron cargar los usuarios: "+ex.getMessage());
+        }
+        return null;
+    }
+    
+    public boolean makeMember(String username) {
+        String sql = "INSERT INTO socios(usuario) VALUES ('"+username+"')";
+        return executeQuery(sql);
+    }
+    
     private boolean executeQuery(String query)
     {
         System.out.println(query);

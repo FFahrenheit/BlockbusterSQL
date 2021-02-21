@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-02-2021 a las 05:05:47
+-- Tiempo de generación: 21-02-2021 a las 21:13:30
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.2.34
 
@@ -29,13 +29,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `peliculas` (
   `id` int(11) NOT NULL,
-  `titulo` text NOT NULL,
-  `director` text NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `director` varchar(60) NOT NULL,
   `fecha` int(11) NOT NULL,
   `precio` decimal(10,2) NOT NULL,
   `stock` int(11) NOT NULL,
   `sinopsis` text NOT NULL,
-  `genero` text NOT NULL
+  `genero` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -43,8 +43,82 @@ CREATE TABLE `peliculas` (
 --
 
 INSERT INTO `peliculas` (`id`, `titulo`, `director`, `fecha`, `precio`, `stock`, `sinopsis`, `genero`) VALUES
-(1, 'LA PELICULA', 'EL DIRECTOR', 2001, '199.00', 10, 'JDANFAJFN		', 'EL GENERO'),
-(2, 'aa', 'aa', 100, '111.00', 10, '', 'nb');
+(1, 'Mr Nobody', 'Jaco Van Dormael', 2009, '199.00', 10, 'La historia se centra en la vida de Nemo Nobody, quien, en el año 2092, y a la avanzada edad de 118 años, es el último mortal en la Tierra, una vez que la raza humana ha alcanzado ya la cuasiinmortalidad. Nemo, entre los jirones de su envejecida memoria, evoca la separación de sus padres, el recuerdo de sus tres amores principales y las dificultades posteriores que sufrió en sendos instantes cruciales de su vida, sucedidos a la edad de nueve, de quince y de treinta y cuatro años. ', 'Ciencia ficción'),
+(2, 'El efecto mariposa', 'Eric Bress\r\n', 2004, '111.00', 9, 'Evan Treborn, un joven que se está esforzando por superar unos dolorosos recuerdos de su infancia, descubre una técnica que le permite viajar atrás en el tiempo y ocupar su cuerpo de niño para poder cambiar el curso de su dolorosa historia. Sin embargo también descubre que cualquier mínimo cambio en el pasado altera enormemente su futuro. ', 'Ciencia ficción');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rentadas`
+--
+
+CREATE TABLE `rentadas` (
+  `id` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
+  `pelicula` int(11) NOT NULL,
+  `usuario` varchar(30) NOT NULL,
+  `entregada` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `rentadas`
+--
+
+INSERT INTO `rentadas` (`id`, `fecha`, `pelicula`, `usuario`, `entregada`) VALUES
+(1, '2021-02-21 18:31:36', 2, 'ivan00', '2021-02-21 19:46:19'),
+(2, '2021-02-21 18:42:11', 2, 'ivan00', '2021-02-21 19:13:54');
+
+--
+-- Disparadores `rentadas`
+--
+DELIMITER $$
+CREATE TRIGGER `regreso_pelicula` AFTER UPDATE ON `rentadas` FOR EACH ROW UPDATE peliculas SET stock = stock + 1 WHERE id = NEW.pelicula
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `renta_pelicula` AFTER INSERT ON `rentadas` FOR EACH ROW UPDATE peliculas SET stock = stock - 1 WHERE id = NEW.pelicula
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `socios`
+--
+
+CREATE TABLE `socios` (
+  `usuario` varchar(30) NOT NULL,
+  `fecha` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `socios`
+--
+
+INSERT INTO `socios` (`usuario`, `fecha`) VALUES
+('ivan00', '2021-02-21');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `username` varchar(30) NOT NULL,
+  `tipo` enum('admin','user','','') NOT NULL DEFAULT 'user',
+  `password` varchar(30) NOT NULL,
+  `nombre` varchar(30) NOT NULL,
+  `apellidos` varchar(30) NOT NULL,
+  `correo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`username`, `tipo`, `password`, `nombre`, `apellidos`, `correo`) VALUES
+('ivan00', 'user', 'ivan00', 'Ivan', 'Lopez', 'ivan@mail.com');
 
 --
 -- Índices para tablas volcadas
@@ -57,6 +131,26 @@ ALTER TABLE `peliculas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `rentadas`
+--
+ALTER TABLE `rentadas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pelicula` (`pelicula`),
+  ADD KEY `usuario` (`usuario`);
+
+--
+-- Indices de la tabla `socios`
+--
+ALTER TABLE `socios`
+  ADD PRIMARY KEY (`usuario`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`username`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -65,6 +159,29 @@ ALTER TABLE `peliculas`
 --
 ALTER TABLE `peliculas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `rentadas`
+--
+ALTER TABLE `rentadas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `rentadas`
+--
+ALTER TABLE `rentadas`
+  ADD CONSTRAINT `rentadas_ibfk_1` FOREIGN KEY (`pelicula`) REFERENCES `peliculas` (`id`),
+  ADD CONSTRAINT `rentadas_ibfk_2` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`username`);
+
+--
+-- Filtros para la tabla `socios`
+--
+ALTER TABLE `socios`
+  ADD CONSTRAINT `socios_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`username`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

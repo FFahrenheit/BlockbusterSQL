@@ -52,11 +52,21 @@ public class Session {
             if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password))
             {
                 this.user = users.get(i);
-                
+                memberSince = db.isMember(username);
                 return true;
             }
         }
         return false;
+    }
+    
+    public boolean isMember()
+    {
+        return this.memberSince != null;
+    }
+    
+    public String getMemberSince()
+    {
+        return this.memberSince;
     }
     
     public ArrayList<Movie> getMovies()
@@ -88,5 +98,12 @@ public class Session {
             }
         }
         return null;
+    }
+
+    public boolean becomeMember() {
+        boolean state =  this.db.makeMember(this.user.getUsername());
+        memberSince = db.isMember(this.user.getUsername());
+        return state;
+
     }
 }

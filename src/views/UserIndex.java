@@ -6,6 +6,7 @@
 package views;
 
 import controllers.Session;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +27,15 @@ public class UserIndex extends javax.swing.JFrame {
         initComponents();
         this.session = session;
         indexTitle.setText("Bienvenido, " + session.getUser().getFirstName() + " " + session.getUser().getLastName());
+        String memberSince = this.session.getMemberSince();
+        if(memberSince!=null)
+        {
+            status.setText("Miembro desde " + memberSince);
+        }
+        else
+        {
+            status.setText("No eres miembro aún\n ¡Unete!");
+        }
     }
 
     /**
@@ -54,6 +64,11 @@ public class UserIndex extends javax.swing.JFrame {
         indexTitle.setText("WELCOME");
 
         status.setText("STATUS");
+        status.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                statusMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("VER PELICULAS");
 
@@ -149,7 +164,6 @@ public class UserIndex extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(boughtMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(rentedMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rentedMovies1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,6 +200,36 @@ public class UserIndex extends javax.swing.JFrame {
         this.dispose();
         new RentedLog(session).setVisible(true);
     }//GEN-LAST:event_rentedMovies1ActionPerformed
+
+    private void statusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusMouseClicked
+        // TODO add your handling code here:
+        if(!this.session.isMember())
+        {
+            int input = JOptionPane.showConfirmDialog(null, "Desea hacerse miembro y disfrutar de increibles ventajas?");
+
+            if(input == 0)
+            {
+                if(this.session.becomeMember())
+                {
+                    JOptionPane.showMessageDialog(this, "Bienvenido al club de miembros","Union exitosa",JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "No se pudo unir como miembro, verifique de nuevo","Error",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            String memberSince = this.session.getMemberSince();
+            if(memberSince!=null)
+            {
+                status.setText("Miembro desde " + memberSince);
+            }
+            else
+            {
+                status.setText("No eres miembro aún\n ¡Unete!");
+            }
+        }
+
+    }//GEN-LAST:event_statusMouseClicked
 
     /**
      * @param args the command line arguments

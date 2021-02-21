@@ -94,7 +94,6 @@
                       <Component id="rentedMovies" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="rentedMovies1" min="-2" pref="38" max="-2" attributes="0"/>
@@ -116,6 +115,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="STATUS"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="statusMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
