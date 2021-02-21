@@ -41,6 +41,20 @@ public class BlockBuster {
         return executeQuery(query);
     }
     
+    public boolean editMovie(Movie movie) {        
+        String query = "UPDATE peliculas SET"
+                + " titulo = '" + movie.getTitle()
+                + "', director = '" + movie.getDirector()
+                + "', fecha = '" + movie.getYear()
+                + "', precio = '" + movie.getPrice()
+                + "', stock = '" + movie.getStock()
+                + "', genero = '" + movie.getGenre()
+                + "', sinopsis = '" + movie.getSinopsis()
+                + "' WHERE id = " + movie.getId();
+
+        return executeQuery(query);
+    }
+    
     public ArrayList<Rented> getRentedMovies(String user)
     {
         ArrayList<Rented> movies = new ArrayList<>();
@@ -238,6 +252,11 @@ public class BlockBuster {
     
     public boolean makeMember(String username) {
         String sql = "INSERT INTO socios(usuario) VALUES ('"+username+"')";
+        return executeQuery(sql);
+    }
+    
+    public boolean deleteMovie(Movie movie) {
+        String sql = "DELETE FROM peliculas WHERE id = " + movie.getId();
         return executeQuery(sql);
     }
     

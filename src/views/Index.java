@@ -144,9 +144,13 @@ public class Index extends javax.swing.JFrame {
         {
             if(this.session.getUser().getType().equals("user"))
             {
-                this.dispose();
                 new UserIndex(this.session).setVisible(true);
             }
+            else
+            {
+                new AdminIndex(this.session).setVisible(true);
+            }
+            this.dispose();
         }
         else
         {
