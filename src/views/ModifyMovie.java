@@ -76,6 +76,8 @@ public class ModifyMovie extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         movieTable = new javax.swing.JTable();
         deleteMovie = new javax.swing.JButton();
+        cleanForm = new javax.swing.JButton();
+        addMovie = new javax.swing.JButton();
 
         jScrollPane2.setViewportView(jTree1);
 
@@ -173,6 +175,20 @@ public class ModifyMovie extends javax.swing.JFrame {
             }
         });
 
+        cleanForm.setText("LIMPIAR");
+        cleanForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cleanFormActionPerformed(evt);
+            }
+        });
+
+        addMovie.setText("AGREGAR");
+        addMovie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMovieActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -213,13 +229,17 @@ public class ModifyMovie extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(238, 238, 238))
             .addGroup(layout.createSequentialGroup()
-                .addGap(128, 128, 128)
+                .addGap(22, 22, 22)
+                .addComponent(cleanForm, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(exitB, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63)
                 .addComponent(editMovie, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(18, 18, 18)
                 .addComponent(deleteMovie, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(addMovie, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,7 +281,9 @@ public class ModifyMovie extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editMovie)
                     .addComponent(exitB)
-                    .addComponent(deleteMovie))
+                    .addComponent(deleteMovie)
+                    .addComponent(cleanForm)
+                    .addComponent(addMovie))
                 .addGap(26, 26, 26)
                 .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -355,15 +377,7 @@ public class ModifyMovie extends javax.swing.JFrame {
             {
                 if(session.db().deleteMovie(movie))
                 {
-                    titleF.setText("");
-                    directorF.setText("");
-                    sinopsisF.setText("");
-                    genreF.setText("");
-                    priceF.setText("");
-                    stockF.setText("");
-                    yearF.setText("");
-                    movieTable.setModel(generator.getMovies());
-                    selected = null;
+                    clean();                    
                     JOptionPane.showMessageDialog(this, "Se ha eliminado la pelicula","Eliminado",JOptionPane.INFORMATION_MESSAGE);
 
                 }
@@ -378,6 +392,47 @@ public class ModifyMovie extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Seleccione una pelicula","No se puede eliminar",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_deleteMovieActionPerformed
+
+    
+    private void clean()
+    {
+        this.selected = null;
+        titleF.setText("");
+        directorF.setText("");
+        sinopsisF.setText("");
+        genreF.setText("");
+        priceF.setText("");
+        stockF.setText("");
+        yearF.setText("");
+        movieTable.setModel(generator.getMovies());
+        this.session.update();
+    }
+    private void cleanFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanFormActionPerformed
+        clean();
+    }//GEN-LAST:event_cleanFormActionPerformed
+
+    private void addMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMovieActionPerformed
+        // TODO add your handling code here:
+        Movie movie = new Movie(
+        "",
+        titleF.getText().toString(),
+        directorF.getText().toString(),
+        sinopsisF.getText().toString(),
+        genreF.getText().toString(),
+        priceF.getText().toString(),
+        stockF.getText().toString(),
+        yearF.getText().toString());
+        
+        if(db.addMovie(movie))
+        {
+            JOptionPane.showMessageDialog(this, "Pelicula agregada");
+            clean();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "No se pudo agregar, verifique los campos","Error" ,JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_addMovieActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,6 +470,8 @@ public class ModifyMovie extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addMovie;
+    private javax.swing.JButton cleanForm;
     private javax.swing.JButton deleteMovie;
     private javax.swing.JTextField directorF;
     private javax.swing.JButton editMovie;
