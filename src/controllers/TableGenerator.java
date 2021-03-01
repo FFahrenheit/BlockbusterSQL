@@ -13,6 +13,7 @@ import models.BoughtMovie;
 import models.Movie;
 import models.Rented;
 import models.RentedMovie;
+import models.User;
 
 /**
  *
@@ -162,5 +163,38 @@ public class TableGenerator {
         });
         
         return model;
+    }
+    
+    public DefaultTableModel getUsers()
+    {
+        ArrayList<User> users = db.getUsers();
+        Vector cabeceras = new Vector();
+        cabeceras.addElement("Usuario");
+        cabeceras.addElement("Nombre");
+        cabeceras.addElement("Apellidos");
+        cabeceras.addElement("Correo");
+        cabeceras.addElement("Contraseña");
+        
+        DefaultTableModel model = new DefaultTableModel(cabeceras, 0)
+        {
+             @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        users.forEach(a->
+        {
+            Vector v = new Vector();
+            v.addElement(a.getUsername());
+            v.addElement(a.getFirstName());
+            v.addElement(a.getLastName());
+            v.addElement(a.getEmail());
+            v.addElement(a.getPassword());
+            model.addRow(v);
+        });
+        
+        return model;
+        
     }
 }

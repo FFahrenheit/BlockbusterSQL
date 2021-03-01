@@ -32,15 +32,17 @@
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="226" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="modifyMovies1" min="-2" pref="159" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" pref="175" max="-2" attributes="0"/>
+                          <Component id="modifyUsers" alignment="1" min="-2" pref="159" max="-2" attributes="0"/>
+                          <Component id="modifyMovies3" alignment="1" min="-2" pref="159" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="216" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -55,7 +57,11 @@
               <Component id="jLabel2" min="-2" pref="14" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Component id="modifyMovies1" min="-2" pref="43" max="-2" attributes="0"/>
-              <EmptySpace pref="177" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="modifyUsers" min="-2" pref="43" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="modifyMovies3" min="-2" pref="43" max="-2" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
               <Component id="exit" min="-2" pref="32" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -79,15 +85,31 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="PELICULAS"/>
+        <Property name="text" type="java.lang.String" value="ADMINISTRAR"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="modifyMovies1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ADMINISTRAR"/>
+        <Property name="text" type="java.lang.String" value="PELICULAS"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyMovies1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="modifyUsers">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="USUARIOS"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyUsersActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="modifyMovies3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="RENTAS"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyMovies3ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -260,6 +260,24 @@ public class BlockBuster {
         return executeQuery(sql);
     }
     
+    public boolean deleteUser(User selectedUser) {
+        String sql = "DELETE FROM usuarios WHERE username = '" + selectedUser.getUsername() + "'";
+        return executeQuery(sql);
+    }
+    
+    
+    public boolean updateUser(User selectedUser) {
+        String query = "UPDATE usuarios SET"
+                + " username = '" + selectedUser.getType()
+                + "', password = '" + selectedUser.getPassword()
+                + "', nombre = '" + selectedUser.getFirstName()
+                + "', apellidos = '" + selectedUser.getLastName()
+                + "', correo = '" + selectedUser.getEmail()
+                + "' WHERE username = " + selectedUser.getUsername();   
+        return executeQuery(query);
+    }
+
+    
     private boolean executeQuery(String query)
     {
         System.out.println(query);
@@ -275,6 +293,5 @@ public class BlockBuster {
             return false;
         }
     }
-
 
 }

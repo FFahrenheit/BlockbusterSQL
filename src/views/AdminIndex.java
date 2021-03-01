@@ -42,6 +42,8 @@ public class AdminIndex extends javax.swing.JFrame {
         exit = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         modifyMovies1 = new javax.swing.JButton();
+        modifyUsers = new javax.swing.JButton();
+        modifyMovies3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,12 +57,26 @@ public class AdminIndex extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("PELICULAS");
+        jLabel2.setText("ADMINISTRAR");
 
-        modifyMovies1.setText("ADMINISTRAR");
+        modifyMovies1.setText("PELICULAS");
         modifyMovies1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 modifyMovies1ActionPerformed(evt);
+            }
+        });
+
+        modifyUsers.setText("USUARIOS");
+        modifyUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifyUsersActionPerformed(evt);
+            }
+        });
+
+        modifyMovies3.setText("RENTAS");
+        modifyMovies3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifyMovies3ActionPerformed(evt);
             }
         });
 
@@ -76,13 +92,15 @@ public class AdminIndex extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(226, 226, 226))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(modifyMovies1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(169, 169, 169))))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modifyUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modifyMovies3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(169, 169, 169))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(216, 216, 216))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,7 +111,11 @@ public class AdminIndex extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(modifyMovies1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(modifyUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(modifyMovies3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -112,6 +134,16 @@ public class AdminIndex extends javax.swing.JFrame {
         this.dispose();
         new ModifyMovie(session).setVisible(true);
     }//GEN-LAST:event_modifyMovies1ActionPerformed
+
+    private void modifyUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyUsersActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new ModifyUser(session).setVisible(true);
+    }//GEN-LAST:event_modifyUsersActionPerformed
+
+    private void modifyMovies3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyMovies3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_modifyMovies3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,5 +185,7 @@ public class AdminIndex extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton modifyMovies1;
+    private javax.swing.JButton modifyMovies3;
+    private javax.swing.JButton modifyUsers;
     // End of variables declaration//GEN-END:variables
 }

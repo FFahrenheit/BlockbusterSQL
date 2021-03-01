@@ -111,4 +111,14 @@ public class Session {
     public TableModel getBuyLog() {
         return generator.getBuyLog(this.user.getUsername());
     }
+
+    public User getUser(String selected) {
+        for (int i = 0; i < users.size(); i++) {
+            if(users.get(i).getUsername().equals(selected))
+            {
+                return users.get(i);
+            }
+        }
+        return null;
+    }
 }
