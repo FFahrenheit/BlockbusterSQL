@@ -14,6 +14,7 @@ import models.BoughtMovie;
 import models.Movie;
 import models.Rented;
 import models.RentedMovie;
+import models.RentedRecord;
 import models.User;
 
 /**
@@ -86,7 +87,7 @@ public class BlockBuster {
         return movies;
     }
     
-        public ArrayList<RentedMovie> getRentedLog(String user)
+    public ArrayList<RentedMovie> getRentedLog(String user)
     {
         ArrayList<RentedMovie> movies = new ArrayList<>();
         String query = "SELECT peliculas.*,rentadas.fecha AS fecha2, rentadas.id AS id2, "
@@ -116,6 +117,39 @@ public class BlockBuster {
         }
         return movies;
     }
+    
+    public ArrayList<RentedRecord> getRentedLog()
+    {
+        ArrayList<RentedRecord> movies = new ArrayList<>();
+        String query = "SELECT peliculas.*,rentadas.fecha AS fecha2, rentadas.id AS id2, "
+                + "rentadas.entregada AS fecha3, rentadas.usuario as myuser FROM peliculas,rentadas WHERE "
+                + "rentadas.pelicula = peliculas.id AND "
+                + "rentadas.entregada IS NOT NULL";
+        try
+        {
+            PreparedStatement select = connection.prepareStatement(query);
+            ResultSet result = select.executeQuery();
+            while(result.next())
+            {
+                RentedRecord movie = new RentedRecord();
+                
+                movie.setId(result.getString("id2"));
+                movie.setTitle(result.getString("titulo"));
+                movie.setDirector(result.getString("director"));
+                movie.setYear(result.getString("fecha"));
+                movie.setDate(result.getString("fecha2"));
+                movie.setReturned(result.getString("fecha3"));
+                movie.setUser(result.getString("myuser"));
+                movies.add(movie);
+            }
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("No se pudieron cargar las peliculas rentadas. " + ex.getMessage());
+        }
+        return movies;
+    }
+
         
     public ArrayList<Movie> getMovies()
     {
@@ -276,8 +310,18 @@ public class BlockBuster {
                 + "' WHERE username = " + selectedUser.getUsername();   
         return executeQuery(query);
     }
-
     
+    
+    public boolean deleteRent(Integer selected) {
+        String sql = "DELETE FROM rentadas WHERE id = " + selected;
+        return executeQuery(sql);
+    }
+    
+    public boolean updateRent(Integer selected, String days){
+        String sql = "UPDATE rentadas set entregada = entregada - INTERVAL "+days+" HOUR WHERE id = " + selected;
+        return executeQuery(sql);
+    }
+
     private boolean executeQuery(String query)
     {
         System.out.println(query);
@@ -293,5 +337,4 @@ public class BlockBuster {
             return false;
         }
     }
-
 }

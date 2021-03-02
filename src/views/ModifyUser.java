@@ -254,7 +254,7 @@ public class ModifyUser extends javax.swing.JFrame {
     private void goBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        new AdminIndex(session);
+        new AdminIndex(session).setVisible(true);
     }//GEN-LAST:event_goBackActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed

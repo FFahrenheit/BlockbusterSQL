@@ -143,6 +143,8 @@ public class AdminIndex extends javax.swing.JFrame {
 
     private void modifyMovies3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyMovies3ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
+        new ModifyRent(session).setVisible(true);
     }//GEN-LAST:event_modifyMovies3ActionPerformed
 
     /**

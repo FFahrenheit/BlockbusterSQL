@@ -13,6 +13,7 @@ import models.BoughtMovie;
 import models.Movie;
 import models.Rented;
 import models.RentedMovie;
+import models.RentedRecord;
 import models.User;
 
 /**
@@ -196,5 +197,37 @@ public class TableGenerator {
         
         return model;
         
+    }
+    
+    public DefaultTableModel getRentedLog()
+    {
+        ArrayList<RentedRecord> mv = db.getRentedLog();
+        
+        Vector cabeceras = new Vector();
+        cabeceras.addElement("ID renta");
+        cabeceras.addElement("Titulo");
+        cabeceras.addElement("Usuario");
+        cabeceras.addElement("Fecha de prestamo");
+        cabeceras.addElement("Fecha de regreso");
+        DefaultTableModel model = new DefaultTableModel(cabeceras, 0)
+        {
+             @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        mv.forEach(a->
+        {
+            Vector v = new Vector();
+            v.addElement(a.getId());
+            v.addElement(a.getTitle());
+            v.addElement(a.getUser());
+            v.addElement(a.getDate());
+            v.addElement(a.getReturned());
+            model.addRow(v);
+        });
+        
+        return model;
     }
 }
